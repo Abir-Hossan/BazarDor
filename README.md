@@ -58,3 +58,30 @@ The supplied Figma/screenshots are the visual reference for the implemented layo
 - Figma: https://www.figma.com/design/j3wr1ebfYHSGpZhhxEKQ4n/Bazardor-_-Assignment-07
 - GitHub: add the actual repository URL after publishing.
 - Live site: add the actual deployment URL after deployment.
+
+## University submission quality gate
+
+Before submission, configure a real PostgreSQL database and Better Auth secret, then run all checks from the project root:
+
+```bash
+npm install
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run test:e2e
+```
+
+For browser E2E tests, start from a clean environment or let Playwright start the development server. Verify the supplied API endpoints are reachable from the machine running the app. OAuth tests require valid Google/GitHub provider credentials and callback URLs.
+
+### Required production environment
+
+- `DATABASE_URL`
+- `BETTER_AUTH_SECRET` (32+ high-entropy characters)
+- `BETTER_AUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- Optional: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+- Optional: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+- Optional API overrides: `BAZARDOR_API_URL`, `BAZARDOR_API_FALLBACK_URL`
+
+Do not commit `.env.local`, OAuth secrets, database credentials, or production secrets.
