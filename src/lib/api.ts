@@ -149,7 +149,7 @@ export async function getCategories(): Promise<Category[]> {
   const raw = await requestJson<unknown>("/categories");
   return unwrap(raw, ["categories", "data", "results"])
     .map((value) => {
-      const item = asRecord(value) ?? {};
+      const item: Record<string, unknown> = asRecord(value) ?? {};
       return {
         slug: String(pick(item, ["slug", "code", "id"]) ?? ""),
         name: String(pick(item, ["name", "title", "categoryName"]) ?? ""),
