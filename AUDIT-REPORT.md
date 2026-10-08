@@ -8,7 +8,7 @@ Audit scope: complete source tree supplied for the BazarDor university assignmen
 - npm: 10.9.2
 - Network/DNS: outbound npm/API access unavailable from the audit environment
 - `node_modules`: absent in the supplied archive
-- Git history: absent in the supplied archive; a fresh audited Git history was created locally with 11 real commits
+- Git history: absent in the supplied archive; a fresh audited Git history was created locally with 16 real commits
 
 ## Executive result
 
@@ -157,7 +157,7 @@ The actual Figma file could not be opened from the audit environment, so direct 
 
 ## Git history
 
-14 actual commits are present in the audited repository:
+16 actual commits are present in the audited repository:
 
 ```text
 4189b10 chore: import BazarDor source for independent audit
@@ -175,9 +175,10 @@ d40fe58 ux: add route-level authentication loading states
 840e17a fix: preserve meaningful API failure status across fallback requests
 e218eb3 docs: finalize exact audited commit inventory
 2ec9c90 fix: harden nested API envelopes and error handling
+7f679d1 docs: record final runtime verification blockers
 ```
 
-The working tree may contain the final wording of this report itself; no remote repository was pushed.
+The audited repository is clean after the final audit-report commit; no remote repository was pushed.
 
 
 ## Runtime verification attempt — 2026-10-08
