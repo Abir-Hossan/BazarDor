@@ -54,3 +54,15 @@ describe("price sorting and movement", () => {
     expect(topFallers(many.map((item, index) => ({ ...item, change: -(index + 1) })))).toHaveLength(6);
   });
 });
+
+describe("safe return paths", () => {
+  it("accepts same-origin paths", async () => {
+    const { safeReturnPath } = await import("@/lib/utils");
+    expect(safeReturnPath("/product/7?x=1")).toBe("/product/7?x=1");
+  });
+  it("rejects protocol-relative and backslash paths", async () => {
+    const { safeReturnPath } = await import("@/lib/utils");
+    expect(safeReturnPath("//evil.example")).toBe("/");
+    expect(safeReturnPath("/\\evil.example")).toBe("/");
+  });
+});
