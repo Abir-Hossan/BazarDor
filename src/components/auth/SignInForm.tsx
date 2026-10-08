@@ -62,7 +62,6 @@ export function SignInForm() {
       <button type="submit" disabled={loading} className="mt-5 w-full rounded-lg bg-[var(--green)] py-3 font-semibold text-white disabled:opacity-60">
         {loading ? "সাইন ইন হচ্ছে…" : "সাইন ইন"}
       </button>
-      <div className="my-5 flex items-center gap-3 text-xs text-[var(--muted)]"><span className="h-px flex-1 bg-[var(--border)]" />অথবা<span className="h-px flex-1 bg-[var(--border)]" /></div>
       <SocialLogin callbackUrl={callback} />
       <p className="mt-5 text-center text-sm">অ্যাকাউন্ট নেই? <Link href="/signup" className="font-semibold text-[var(--green)]">সাইন আপ করুন</Link></p>
       <Link href="/" className="mt-5 block text-center text-sm text-[var(--muted)]">← হোম পেজে ফিরে যান</Link>

@@ -16,7 +16,9 @@ export function SocialLogin({ callbackUrl = "/" }: { callbackUrl?: string }) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+    <>
+      <div className="my-5 flex items-center gap-3 text-xs text-[var(--muted)]"><span className="h-px flex-1 bg-[var(--border)]" />অথবা<span className="h-px flex-1 bg-[var(--border)]" /></div>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       {googleEnabled && (
         <button type="button" onClick={() => social("google")} className="rounded-lg border border-[var(--border)] bg-white px-3 py-2.5 font-medium hover:bg-slate-50">
           🔵 Google দিয়ে চালিয়ে যান
@@ -27,6 +29,7 @@ export function SocialLogin({ callbackUrl = "/" }: { callbackUrl?: string }) {
           ◉ GitHub দিয়ে চালিয়ে যান
         </button>
       )}
-    </div>
+      </div>
+    </>
   );
 }
