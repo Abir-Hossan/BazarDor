@@ -76,6 +76,19 @@ function unwrap(value: unknown, keys: string[]): unknown[] {
   return [];
 }
 
+function unwrapRecord(value: unknown, keys: string[]): Record<string, unknown> | null {
+  const object = asRecord(value);
+  if (!object) return null;
+  for (const key of keys) {
+    const nested = asRecord(object[key]);
+    if (nested) {
+      const resolved = unwrapRecord(nested, keys);
+      return resolved ?? nested;
+    }
+  }
+  return object;
+}
+
 function normalizeMarket(rawValue: unknown): MarketPrice {
   const raw = asRecord(rawValue) ?? {};
   return {
@@ -164,12 +177,7 @@ export async function getCategories(): Promise<Category[]> {
 export async function getCategory(slug: string): Promise<Category | null> {
   try {
     const raw = await requestJson<unknown>(`/categories/${encodeURIComponent(slug)}`);
-    const object = asRecord(raw);
-    const candidate = object && asRecord(object.category)
-      ? object.category
-      : object && asRecord(object.data)
-        ? object.data
-        : object;
+    const candidate = unwrapRecord(raw, ["category", "data", "result"]);
     if (!candidate) return null;
     const category = {
       slug: String(pick(candidate, ["slug", "code", "id"]) ?? slug),
@@ -204,8 +212,7 @@ export async function getProduct(idOrSlug: string): Promise<Product | null> {
   try {
     const categories = await getCategories().catch(() => []);
     const raw = await requestJson<unknown>(`/products/${encodeURIComponent(idOrSlug)}`);
-    const object = asRecord(raw);
-    const candidate = object && asRecord(object.product) ? object.product : object;
+    const candidate = unwrapRecord(raw, ["product", "data", "result"]);
     return candidate ? normalizeProduct(candidate, categories) : null;
   } catch (error) {
     if (error instanceof BazarDorApiError && error.status === 404) return null;

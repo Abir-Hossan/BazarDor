@@ -41,4 +41,14 @@ describe("API response normalization", () => {
     expect(product.price).toBeNull();
     expect(product.markets[0]).toMatchObject({ min: null, max: null, avg: null });
   });
+
+  it("unwraps nested data and product response envelopes", () => {
+    const product = normalizeProduct(
+      { data: { product: { id: 9, name: "নেস্টেড পণ্য", price: "১২৫" } } },
+      [],
+    );
+    expect(product.id).toBe(9);
+    expect(product.name).toBe("নেস্টেড পণ্য");
+    expect(product.price).toBe(125);
+  });
 });

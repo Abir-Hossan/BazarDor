@@ -103,7 +103,8 @@ export function Navbar() {
         <div className="container-page overflow-x-auto">
           <div className="flex min-w-max items-center gap-1 py-2">
             {categories.map((category) => (
-              <Link key={category.slug} href={`/category/${encodeURIComponent(category.slug)}`} className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium ${path === `/category/${category.slug}` ? "bg-[var(--green)] text-white" : "hover:bg-slate-50"}`}>
+              <Link key={category.slug} href={`/category/${encodeURIComponent(category.slug)}`} className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium ${path === `/category/${category.slug}` ? "bg-[var(--green)] text-white" : "hover:bg-slate-50"}`}
+                aria-current={path === `/category/${category.slug}` ? "page" : undefined}>
                 {category.icon} {category.name}
               </Link>
             ))}
