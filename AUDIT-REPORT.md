@@ -157,7 +157,7 @@ The actual Figma file could not be opened from the audit environment, so direct 
 
 ## Git history
 
-13 actual commits are present in the audited repository:
+14 actual commits are present in the audited repository:
 
 ```text
 4189b10 chore: import BazarDor source for independent audit
@@ -173,6 +173,44 @@ d40fe58 ux: add route-level authentication loading states
 0c105b2 ux: keep auth forms clean when social login is disabled
 0ba0276 docs: add independent university quality audit report
 840e17a fix: preserve meaningful API failure status across fallback requests
+e218eb3 docs: finalize exact audited commit inventory
+2ec9c90 fix: harden nested API envelopes and error handling
 ```
 
-Run `git log --oneline` in the project root for the exact latest hash shown above.
+The working tree may contain the final wording of this report itself; no remote repository was pushed.
+
+
+## Runtime verification attempt — 2026-10-08
+
+The audited source was tested again in the current execution environment. Node.js 22.16.0 and npm 10.9.2 are available, but outbound DNS/network access is unavailable.
+
+### Commands actually executed
+
+```text
+npm install --no-audit --no-fund
+→ BLOCKED: command timed out while attempting registry access
+
+curl -I https://registry.npmjs.org/next
+→ curl: (6) Could not resolve host: registry.npmjs.org
+
+curl -I https://api.api-store.workers.dev/api/bazardor/products
+→ curl: (6) Could not resolve host: api.api-store.workers.dev
+
+curl -I https://api.abcz.workers.dev/api/bazardor/products
+→ curl: (6) Could not resolve host: api.abcz.workers.dev
+
+npm install --offline --no-audit --no-fund
+→ ENOTCACHED: @playwright/test is not present in the npm cache
+
+tsc --noEmit
+→ BLOCKED by missing installed dependencies; exit code 2
+
+git diff --check
+→ PASS (exit code 0)
+```
+
+No fake green result is recorded for lint, Vitest, Playwright, production build, PostgreSQL, OAuth, or Vercel. Those require network access and/or user-provided external credentials.
+
+### Additional source-level fix after the audit
+
+`src/lib/api.ts` now unwraps nested `data`, `product`, `category`, and `result` response envelopes before normalization. This protects product/category detail pages from treating an API wrapper object as the product itself. A regression test was added to `src/tests/api.test.ts`. The home page no longer silently converts an API outage into an empty product list; the application error boundary can now present a retryable error instead.
