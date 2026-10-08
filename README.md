@@ -14,7 +14,7 @@ Bangladesh daily essential commodity price tracking platform built with Next.js 
 - Responsive desktop/tablet/mobile layout and reduced-motion ticker.
 
 ## Stack
-Next.js 16, React 19, TypeScript, Tailwind CSS 4, Better Auth 1.7, Drizzle ORM, PostgreSQL, React Hot Toast, Vitest, React Testing Library and Playwright.
+Next.js 16, React 19, TypeScript, Tailwind CSS 4, Better Auth 1.7.7, Drizzle ORM, PostgreSQL, React Hot Toast, Vitest, React Testing Library and Playwright.
 
 ## API
 Primary: `https://api.api-store.workers.dev/api/bazardor`
@@ -80,8 +80,8 @@ For browser E2E tests, start from a clean environment or let Playwright start th
 - `BETTER_AUTH_SECRET` (32+ high-entropy characters)
 - `BETTER_AUTH_URL`
 - `NEXT_PUBLIC_APP_URL`
-- Optional: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
-- Optional: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+- Optional Google: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`
+- Optional GitHub: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `NEXT_PUBLIC_GITHUB_AUTH_ENABLED=true`
 - Optional API overrides: `BAZARDOR_API_URL`, `BAZARDOR_API_FALLBACK_URL`
 
 Do not commit `.env.local`, OAuth secrets, database credentials, or production secrets.
