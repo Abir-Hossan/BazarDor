@@ -13,7 +13,7 @@ export class BazarDorApiError extends Error {
 
 async function requestJson<T>(path: string): Promise<T> {
   const urls = [`${PRIMARY}${path}`, `${FALLBACK}${path}`];
-  let lastError: unknown;
+  const errors: unknown[] = [];
 
   for (const url of urls) {
     try {
@@ -23,22 +23,24 @@ async function requestJson<T>(path: string): Promise<T> {
       });
 
       if (!res.ok) {
-        const error = new BazarDorApiError(`API ${res.status}`, res.status);
-        // A 404 from the primary endpoint should still allow the fallback API
-        // to answer, so both endpoints are always attempted.
-        lastError = error;
+        // A failure from the primary endpoint should not prevent the fallback
+        // endpoint from answering. Both endpoints are attempted.
+        errors.push(new BazarDorApiError(`API ${res.status}`, res.status));
         continue;
       }
 
       return (await res.json()) as T;
     } catch (error) {
-      lastError = error;
+      errors.push(error);
     }
   }
 
-  const status = lastError instanceof BazarDorApiError ? lastError.status : undefined;
+  const apiErrors = errors.filter((error): error is BazarDorApiError => error instanceof BazarDorApiError);
+  // Preserve a meaningful non-404 failure when the fallback itself says 404.
+  const selectedError = apiErrors.find((error) => error.status !== 404) ?? apiErrors[0] ?? errors[errors.length - 1];
+  const status = selectedError instanceof BazarDorApiError ? selectedError.status : undefined;
   throw new BazarDorApiError(
-    `বাজারের তথ্য লোড করা যায়নি: ${lastError instanceof Error ? lastError.message : "অজানা ত্রুটি"}`,
+    `বাজারের তথ্য লোড করা যায়নি: ${selectedError instanceof Error ? selectedError.message : "অজানা ত্রুটি"}`,
     status,
   );
 }
