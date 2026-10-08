@@ -45,7 +45,14 @@ describe("price sorting and movement", () => {
   ];
 
   it("sorts ascending numerically", () => expect(sortByPrice(products, "asc").map((item) => item.id)).toEqual(["b", "c", "a", "d", "e"]));
-  it("sorts descending numerically", () => expect(sortByPrice(products, "desc").map((item) => item.id)).toEqual(["e", "d", "a", "c", "b"]));
+  it("sorts descending numerically", () =>
+  expect(sortByPrice(products, "desc").map((item) => item.id)).toEqual([
+    "d",
+    "a",
+    "c",
+    "b",
+    "e",
+  ]));
   it("gets top risers", () => expect(topRisers(products).map((item) => item.id)).toEqual(["a", "c"]));
   it("gets top fallers", () => expect(topFallers(products).map((item) => item.id)).toEqual(["b", "d"]));
   it("limits risers and fallers to six", () => {

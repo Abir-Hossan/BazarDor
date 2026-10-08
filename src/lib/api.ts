@@ -113,7 +113,7 @@ function deriveMarketSummary(markets: MarketPrice[]) {
 }
 
 export function normalizeProduct(rawValue: unknown, categories: Category[] = []): Product {
-  const raw = asRecord(rawValue) ?? {};
+  const raw = unwrapRecord(rawValue, ["product", "data", "result"]) ?? {};
   const id = pick(raw, ["id", "_id", "productId", "product_id"]) ?? "";
   const slugValue = pick(raw, ["slug", "code", "key"]);
   const categoryRaw = pick(raw, ["category", "categorySlug", "category_id", "categoryId", "category_slug"]);
