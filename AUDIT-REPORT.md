@@ -157,7 +157,7 @@ The actual Figma file could not be opened from the audit environment, so direct 
 
 ## Git history
 
-11 actual commits are present:
+13 actual commits are present in the audited repository:
 
 ```text
 4189b10 chore: import BazarDor source for independent audit
@@ -169,7 +169,10 @@ d40fe58 ux: add route-level authentication loading states
 0cb7607 docs: document university quality gate and deployment environment
 1124a3b a11y: improve error and not-found announcements
 19c2866 fix: resolve strict TypeScript object narrowing issues
-[plus latest auth-provider and auth-form cleanup commits]
+9ef4dc7 auth: hide unconfigured social providers
+0c105b2 ux: keep auth forms clean when social login is disabled
+0ba0276 docs: add independent university quality audit report
+840e17a fix: preserve meaningful API failure status across fallback requests
 ```
 
-Use `git log --oneline` for the exact current list and hashes.
+Run `git log --oneline` in the project root for the exact latest hash shown above.
