@@ -163,7 +163,11 @@ export async function getCategory(slug: string): Promise<Category | null> {
   try {
     const raw = await requestJson<unknown>(`/categories/${encodeURIComponent(slug)}`);
     const object = asRecord(raw);
-    const candidate = object && asRecord(object.category) ? object.category : object;
+    const candidate = object && asRecord(object.category)
+      ? object.category
+      : object && asRecord(object.data)
+        ? object.data
+        : object;
     if (!candidate) return null;
     const category = {
       slug: String(pick(candidate, ["slug", "code", "id"]) ?? slug),

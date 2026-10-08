@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatBanglaDate,
   formatBanglaNumber,
+  formatBanglaPrice,
   formatBanglaPercentage,
   parseNumericPrice,
 } from "@/lib/bengali";
@@ -24,7 +25,8 @@ describe("Bengali number utilities", () => {
   it("formats grouped integers", () => expect(formatBanglaNumber(1850)).toBe("১,৮৫০"));
   it("formats decimals", () => expect(formatBanglaNumber(2.9)).toBe("২.৯"));
   it("formats prices", () => expect(formatBanglaNumber("১,৮৫০ টাকা")).toBe("১,৮৫০"));
-  it("formats price with currency", () => expect(formatBanglaNumber(148) + " টাকা").toBe("১৪৮ টাকা"));
+  it("formats price with currency", () => expect(formatBanglaPrice(148)).toBe("১৪৮ টাকা"));
+  it("does not append currency to a missing value", () => expect(formatBanglaPrice(null)).toBe("—"));
   it("formats absolute percentage", () => expect(formatBanglaPercentage(-2.9)).toBe("২.৯%"));
   it("handles missing percentage", () => expect(formatBanglaPercentage(null)).toBe("০.০%"));
   it("parses Bengali digits, commas and currency", () => expect(parseNumericPrice("১,৮৫০ টাকা")).toBe(1850));

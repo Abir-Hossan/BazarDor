@@ -22,7 +22,8 @@ export function formatBanglaNumber(value: number | string | null | undefined, ma
 }
 
 export function formatBanglaPrice(value: number | string | null | undefined): string {
-  return `${formatBanglaNumber(value)} টাকা`;
+  const formatted = formatBanglaNumber(value);
+  return formatted === "—" ? formatted : `${formatted} টাকা`;
 }
 
 export function formatBanglaPercentage(value: number | string | null | undefined): string {
