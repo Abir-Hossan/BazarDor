@@ -8,7 +8,7 @@ Bangladesh daily essential commodity price tracking platform built with Next.js 
 - Home sections for price risers, fallers and all products.
 - Category pages with numeric price sorting.
 - Authenticated product detail pages with market-level comparison.
-- Better Auth email/password plus optional Google and GitHub OAuth.
+- Better Auth email/password plus optional Google and GitHub OAuth; email verification and password reset are intentionally omitted for the assignment.
 - Protected profile and profile-update pages.
 - Loading, empty, error and custom 404 states.
 - Responsive desktop/tablet/mobile layout and reduced-motion ticker.
@@ -24,7 +24,7 @@ Endpoints used: `/products`, `/products?category=:slug`, `/products/:id`, `/cate
 
 ## Setup
 1. Copy `.env.example` to `.env.local`.
-2. Set `DATABASE_URL`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL`.
+2. Set `DATABASE_URL`, `BETTER_AUTH_SECRET` (at least 32 characters), `BETTER_AUTH_URL`, and `NEXT_PUBLIC_APP_URL`. Email verification/password reset are intentionally disabled as requested, so Resend credentials are not required.
 3. Add Google/GitHub credentials only when those providers are configured.
 4. Install packages with `npm install`.
 5. Generate Better Auth/Drizzle schema using the installed Better Auth CLI if the generated schema differs from the checked-in schema: `npm run auth:generate`.
