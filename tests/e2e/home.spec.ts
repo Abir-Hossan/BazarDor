@@ -72,13 +72,15 @@ test.describe("BazarDor public routes", () => {
 
   test("protected profile and product routes redirect unauthenticated users", async ({ page }) => {
     await page.goto("/profile");
-    await expect(page).toHaveURL(/\/signin\?callbackUrl=%2Fprofile/);
+    await expect(page).toHaveURL(/\/signin\?callbackUrl=\/profile/);
 
     await page.goto("/profile/update");
-    await expect(page).toHaveURL(/\/signin\?callbackUrl=%2Fprofile%2Fupdate/);
+    await expect(page).toHaveURL(/\/signin\?callbackUrl=\/profile\/update/);
 
     await page.goto("/product/1");
-    await expect(page).toHaveURL(/\/signin\?callbackUrl=%2Fproduct%2F1/);
+    await expect(page).toHaveURL(
+  /\/signin\?callbackUrl=%2Fproduct%2F1&authRequired=1/
+);
   });
 
   test("product cards point to API identifiers", async ({ page }) => {
