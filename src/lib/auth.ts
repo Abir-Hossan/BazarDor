@@ -52,16 +52,20 @@ export const auth = betterAuth({
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
   },
-  trustedOrigins: Array.from(
+  
+trustedOrigins: Array.from(
   new Set(
     [
       "http://localhost:3000",
       "http://127.0.0.1:3000",
-      "https://bazar-dor-chi-gold.vercel.app",
-      authURL,
-      appURL,
+      process.env.NEXT_PUBLIC_APP_URL
+        ? new URL(process.env.NEXT_PUBLIC_APP_URL).origin
+        : undefined,
+      process.env.BETTER_AUTH_URL
+        ? new URL(process.env.BETTER_AUTH_URL).origin
+        : undefined,
     ].filter((value): value is string => Boolean(value)),
   ),
-
 ),
+
 });
