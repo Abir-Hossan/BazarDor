@@ -50,7 +50,7 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-[var(--border)] bg-white p-6 shadow-sm">
+    <form noValidate onSubmit={submit} className="rounded-2xl border border-[var(--border)] bg-white p-6 shadow-sm">
       <label className="block text-sm font-medium" htmlFor="signin-email">
         ইমেইল
         <input id="signin-email" required type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="mt-2 w-full rounded-lg border border-[var(--border)] px-3 py-2.5" />

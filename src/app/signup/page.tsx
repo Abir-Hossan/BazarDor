@@ -1,2 +1,14 @@
 import { SignUpForm } from "@/components/auth/SignUpForm";
-export default function SignUp(){return <div className="container-page flex min-h-[720px] items-center justify-center py-10"><div className="w-full max-w-[520px]"><h1 className="text-center text-3xl font-bold">অ্যাকাউন্ট তৈরি করুন</h1><p className="mb-6 mt-2 text-center text-[var(--muted)]">বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।</p><SignUpForm/></div></div>}
+export default function SignUp() {
+  return (
+    <div className="container-page flex min-h-[720px] items-center justify-center py-10">
+      <div className="w-full max-w-[520px]">
+        <h1 className="text-center text-3xl font-bold">অ্যাকাউন্ট তৈরি করুন</h1>
+        <p className="mb-6 mt-2 text-center text-[var(--muted)]">
+          বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
+        </p>
+        <SignUpForm />
+      </div>
+    </div>
+  );
+}
