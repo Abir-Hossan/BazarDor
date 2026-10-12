@@ -29,7 +29,13 @@ export function formatBanglaPrice(value: number | string | null | undefined): st
 export function formatBanglaPercentage(value: number | string | null | undefined): string {
   const n = parseNumericPrice(value);
   if (n === null) return "০.০%";
-  return `${toBengaliDigits(new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(Math.abs(n)))}%`;
+
+  return `${toBengaliDigits(
+    new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }).format(Math.abs(n)),
+  )}%`;
 }
 
 export function formatBanglaDate(date = new Date()): string {
