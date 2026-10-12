@@ -42,6 +42,30 @@ describe("API response normalization", () => {
     expect(product.markets[0]).toMatchObject({ min: null, max: null, avg: null });
   });
 
+  it("keeps image URLs separate from emoji and preserves unknown price changes", () => {
+    const product = normalizeProduct({
+      id: 10,
+      name: "পেঁয়াজ",
+      image: "https://example.com/onion.png",
+    });
+
+    expect(product.emoji).toBe("🛒");
+    expect(product.image).toBe("https://example.com/onion.png");
+    expect(product.change).toBeNull();
+  });
+
+  it("uses an explicit emoji when both emoji and image URL are provided", () => {
+    const product = normalizeProduct({
+      id: 11,
+      name: "চাল",
+      emoji: "🍚",
+      imageUrl: "https://example.com/rice.png",
+    });
+
+    expect(product.emoji).toBe("🍚");
+    expect(product.image).toBe("https://example.com/rice.png");
+  });
+
   it("unwraps nested data and product response envelopes", () => {
     const product = normalizeProduct(
       { data: { product: { id: 9, name: "নেস্টেড পণ্য", price: "১২৫" } } },
