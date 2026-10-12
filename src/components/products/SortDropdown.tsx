@@ -1,3 +1,36 @@
+
 "use client";
+
 import { useRouter, useSearchParams } from "next/navigation";
-export function SortDropdown(){const router=useRouter();const params=useSearchParams(); return <label className="flex items-center gap-2 text-sm">সাজান<select value={params.get("sort")??"default"} onChange={e=>{const p=new URLSearchParams(params.toString()); const v=e.target.value; v==="default"?p.delete("sort"):p.set("sort",v); router.replace(`?${p.toString()}`)}} className="rounded-lg border border-[var(--border)] bg-white px-3 py-2"><option value="default">ডিফল্ট</option><option value="asc">দাম: কম থেকে বেশি</option><option value="desc">দাম: বেশি থেকে কম</option></select></label>}
+
+export function SortDropdown() {
+  const router = useRouter();
+  const params = useSearchParams();
+
+  return (
+    <label className="flex items-center gap-2 text-sm">
+      সাজান
+      <select
+        value={params.get("sort") ?? "default"}
+        onChange={(e) => {
+          const p = new URLSearchParams(params.toString());
+          const v = e.target.value;
+
+          if (v === "default") {
+            p.delete("sort");
+          } else {
+            p.set("sort", v);
+          }
+
+          const query = p.toString();
+          router.replace(query ? `?${query}` : window.location.pathname);
+        }}
+        className="rounded-lg border border-[var(--border)] bg-white px-3 py-2"
+      >
+        <option value="default">ডিফল্ট</option>
+        <option value="asc">দাম: কম থেকে বেশি</option>
+        <option value="desc">দাম: বেশি থেকে কম</option>
+      </select>
+    </label>
+  );
+}
