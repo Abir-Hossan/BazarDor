@@ -5,7 +5,9 @@ import * as schema from "./auth-schema";
 
 const secret = process.env.BETTER_AUTH_SECRET;
 const databaseUrl = process.env.DATABASE_URL;
-const baseURL = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+const authURL = process.env.BETTER_AUTH_URL?.replace(/\/+$/, "");
+const appURL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, "");
+const baseURL = authURL ?? appURL;
 
 if (!secret || secret.length < 32) {
   throw new Error("BETTER_AUTH_SECRET must be set and contain at least 32 characters.");
@@ -55,9 +57,11 @@ export const auth = betterAuth({
     [
       "http://localhost:3000",
       "http://127.0.0.1:3000",
-      process.env.NEXT_PUBLIC_APP_URL,
-      process.env.BETTER_AUTH_URL,
+      "https://bazar-dor-chi-gold.vercel.app",
+      authURL,
+      appURL,
     ].filter((value): value is string => Boolean(value)),
   ),
+
 ),
 });
