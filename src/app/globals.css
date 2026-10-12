@@ -1,15 +1,109 @@
 @import "tailwindcss";
 
-:root { --green:#008a43; --bg:#f1f7f2; --ink:#17231d; --muted:#66736b; --border:#dce6df; }
-html { scroll-behavior:smooth; }
-body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-bengali), sans-serif; }
-* { box-sizing:border-box; }
-button,a,input,select { font:inherit; }
-:focus-visible { outline:3px solid #7ed7a4; outline-offset:2px; }
-.ticker-mask { overflow:hidden; }
-.ticker-track { display:flex; width:max-content; animation:ticker 42s linear infinite; }
-@keyframes ticker { to { transform:translateX(-50%); } }
-@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .ticker-track { animation:none; } * { transition-duration:0.01ms !important; } }
-.card-hover { transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
-.card-hover:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(22,52,35,.08); border-color:#b9d8c5; }
-.container-page { width:min(1120px,calc(100% - 32px)); margin-inline:auto; }
+:root {
+  --green: #008a43;
+  --bg: #f1f7f2;
+  --ink: #17231d;
+  --muted: #66736b;
+  --border: #dce6df;
+}
+
+html {
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-bengali), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+a,
+input,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid #7ed7a4;
+  outline-offset: 2px;
+}
+
+
+.ticker-mask {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  flex-shrink: 0;
+  animation: ticker 45s linear infinite;
+}
+
+.ticker-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+  white-space: nowrap;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ticker-track {
+    animation: none;
+    will-change: auto;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.card-hover {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(22, 52, 35, 0.08);
+  border-color: #b9d8c5;
+}
+
+.container-page {
+  width: min(1120px, calc(100% - 32px));
+  margin-inline: auto;
+}
