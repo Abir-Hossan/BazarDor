@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth/minimal";
+import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./database";
 import * as schema from "./auth-schema";
@@ -16,12 +16,19 @@ if (!baseURL) {
 if (!databaseUrl || !db) {
   throw new Error("DATABASE_URL must be configured for persistent Better Auth storage.");
 }
+console.log("[BazarDor] Auth configuration loaded");
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg", schema }),
   secret,
   baseURL,
-  emailAndPassword: { enabled: true },
+  
+  // Assignment requirements explicitly omit email verification and password reset.
+  // This keeps email/password registration usable without a mail-provider key.
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: false,
+  },
   socialProviders: {
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? {
@@ -44,10 +51,13 @@ export const auth = betterAuth({
     useSecureCookies: process.env.NODE_ENV === "production",
   },
   trustedOrigins: Array.from(
-    new Set(
-      [process.env.NEXT_PUBLIC_APP_URL, process.env.BETTER_AUTH_URL].filter(
-        (value): value is string => Boolean(value),
-      ),
-    ),
+  new Set(
+    [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      process.env.NEXT_PUBLIC_APP_URL,
+      process.env.BETTER_AUTH_URL,
+    ].filter((value): value is string => Boolean(value)),
   ),
+),
 });
