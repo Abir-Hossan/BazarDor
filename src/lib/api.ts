@@ -124,8 +124,13 @@ export function normalizeProduct(rawValue: unknown, categories: Category[] = [])
   const category = categories.find(
     (item) => item.slug === categorySlug || String(item.slug) === String(categoryRaw),
   );
-  const categoryName = categoryObject ? pick(categoryObject, ["name", "title"]) : undefined;
-  const name = String(pick(raw, ["name", "title", "productName", "product_name"]) ?? "পণ্য");
+  const categoryName = categoryObject
+  ? pick(categoryObject, ["nameBn", "name", "title"])
+  : undefined;
+const name = String(
+  pick(raw, ["nameBn", "name", "title", "productName", "product_name"]) ??
+    "পণ্য",
+);
   const markets = unwrap(
     pick(raw, ["markets", "marketPrices", "market_prices", "prices", "বাজার"]),
     ["data", "markets", "prices"],
@@ -134,23 +139,56 @@ export function normalizeProduct(rawValue: unknown, categories: Category[] = [])
   const directMax = parseNumericPrice(pick(raw, ["maxPrice", "maximumPrice", "highestPrice", "max"]));
   const directAvg = parseNumericPrice(pick(raw, ["averagePrice", "avgPrice", "average", "avg"]));
   const derived = deriveMarketSummary(markets);
-  const imageValue = pick(raw, ["image", "imageUrl", "image_url"]);
+  const imageValue = pick(raw, ["imageUrl", "image_url", "image"]);
+  const emojiValue = pick(raw, ["emoji", "categoryIcon", "icon", "symbol"]);
+
+  const rawChange = pick(raw, [
+  "change",
+  "changePercent",
+  "change_percentage",
+  "percentageChange",
+  "priceChange",
+  "price_change",
+]);
+
+const changeObject = asRecord(rawChange);
+
+const changeValue = parseNumericPrice(
+  changeObject
+    ? pick(changeObject, ["pct", "percentage", "value"])
+    : rawChange,
+);
 
   return {
     id: typeof id === "string" || typeof id === "number" ? id : String(id),
     slug: String(slugValue ?? id),
     name,
     categorySlug: category?.slug ?? categorySlug,
-    categoryName: category?.name ?? String(categoryName ?? "পণ্য"),
-    unit: String(pick(raw, ["unit", "measurement", "quantity", "একক"]) ?? "প্রতি কেজি"),
-    price: parseNumericPrice(pick(raw, ["price", "currentPrice", "current_price", "todayPrice", "today_price", "দাম"]))
-      ?? directAvg
-      ?? derived.avg,
-    change: parseNumericPrice(
-      pick(raw, ["change", "changePercent", "change_percentage", "percentageChange", "priceChange", "price_change"]),
-    ) ?? 0,
-    emoji: String(pick(raw, ["emoji", "icon", "symbol"]) ?? "🛒"),
-    image: typeof imageValue === "string" ? imageValue : null,
+categoryName:
+  category?.name ?? String(pick(raw, ["categoryNameBn"]) ?? categoryName ?? "পণ্য"),    unit: String(pick(raw, ["unit", "measurement", "quantity", "একক"]) ?? "প্রতি কেজি"),
+
+price:
+  parseNumericPrice(
+    pick(raw, [
+      "today",
+      "price",
+      "currentPrice",
+      "current_price",
+      "todayPrice",
+      "today_price",
+      "দাম",
+    ]),
+  ) ??
+  directAvg ??
+  derived.avg ??
+  (derived.min !== null && derived.max !== null
+    ? (derived.min + derived.max) / 2
+    : derived.min ?? derived.max),
+    // Preserve missing change data as unknown instead of reporting a false 0% change.
+    change: changeValue,
+    // An image URL must never be rendered as an emoji. Emoji and image fields are distinct.
+    emoji: typeof emojiValue === "string" ? emojiValue : "🛒",
+    image: typeof imageValue === "string" && /^https?:\/\//i.test(imageValue) ? imageValue : null,
     markets:
       markets.length > 0
         ? markets
@@ -167,7 +205,9 @@ export async function getCategories(): Promise<Category[]> {
       const item: Record<string, unknown> = asRecord(value) ?? {};
       return {
         slug: String(pick(item, ["slug", "code", "id"]) ?? ""),
-        name: String(pick(item, ["name", "title", "categoryName"]) ?? ""),
+        name: String(
+  pick(item, ["nameBn", "categoryNameBn", "name", "title", "categoryName"]) ?? "",
+),
         icon: String(pick(item, ["icon", "emoji", "symbol"]) ?? "🛒"),
       };
     })
@@ -181,7 +221,9 @@ export async function getCategory(slug: string): Promise<Category | null> {
     if (!candidate) return null;
     const category = {
       slug: String(pick(candidate, ["slug", "code", "id"]) ?? slug),
-      name: String(pick(candidate, ["name", "title", "categoryName"]) ?? ""),
+      name: String(
+  pick(candidate, ["nameBn", "categoryNameBn", "name", "title", "categoryName"]) ?? "",
+),
       icon: String(pick(candidate, ["icon", "emoji", "symbol"]) ?? "🛒"),
     };
     return category.name ? category : null;
