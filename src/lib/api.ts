@@ -89,16 +89,41 @@ function unwrapRecord(value: unknown, keys: string[]): Record<string, unknown> |
   return object;
 }
 
+
 function normalizeMarket(rawValue: unknown): MarketPrice {
   const raw = asRecord(rawValue) ?? {};
+
+  const min = parseNumericPrice(
+    pick(raw, ["min", "minimum", "lowest", "minPrice", "minimumPrice", "সর্বনিম্ন"])
+  );
+
+  const max = parseNumericPrice(
+    pick(raw, ["max", "maximum", "highest", "maxPrice", "maximumPrice", "সর্বাধিক"])
+  );
+
+  const apiAvg = parseNumericPrice(
+    pick(raw, ["avg", "average", "mean", "avgPrice", "averagePrice", "গড়", "গড়"])
+  );
+
+  // API average না দিলে minimum ও maximum থেকে midpoint হিসাব করা হবে।
+  const avg =
+    apiAvg ??
+    (min !== null && max !== null
+      ? (min + max) / 2
+      : null);
+
   return {
-    market: String(pick(raw, ["market", "marketName", "name", "বাজার"]) ?? "অজানা বাজার"),
-    division: String(pick(raw, ["division", "region", "বিভাগ"]) ?? "") || undefined,
-    min: parseNumericPrice(pick(raw, ["min", "minimum", "lowest", "minPrice", "minimumPrice", "সর্বনিম্ন"])),
-    max: parseNumericPrice(pick(raw, ["max", "maximum", "highest", "maxPrice", "maximumPrice", "সর্বাধিক"])),
-    avg: parseNumericPrice(pick(raw, ["avg", "average", "mean", "avgPrice", "averagePrice", "গড়"])),
+    market: String(
+      pick(raw, ["market", "marketName", "name", "বাজার"]) ?? "অজানা বাজার"
+    ),
+    division:
+      String(pick(raw, ["division", "region", "বিভাগ"]) ?? "") || undefined,
+    min,
+    max,
+    avg,
   };
 }
+
 
 function deriveMarketSummary(markets: MarketPrice[]) {
   const mins = markets.map((market) => market.min).filter((value): value is number => value !== null);

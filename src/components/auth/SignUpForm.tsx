@@ -1,4 +1,3 @@
-
 "use client";
 
 import { FormEvent, useState } from "react";
@@ -20,10 +19,10 @@ export function SignUpForm() {
     event.preventDefault();
 
     if (!name.trim()) return void toast.error("নাম লিখুন।");
-    
-if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
-  return void toast.error("সঠিক ইমেইল দিন।");
-}
+
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+      return void toast.error("সঠিক ইমেইল দিন।");
+    }
 
     if (password.length < 8) {
       return void toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।");
@@ -55,7 +54,6 @@ if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
       setLoading(false);
     }
   }
-
 
   return (
     <form
@@ -89,7 +87,10 @@ if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
         />
       </label>
 
-      <label className="mt-4 block text-sm font-medium" htmlFor="signup-password">
+      <label
+        className="mt-4 block text-sm font-medium"
+        htmlFor="signup-password"
+      >
         পাসওয়ার্ড
         <input
           id="signup-password"
@@ -104,7 +105,10 @@ if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
         />
       </label>
 
-      <label className="mt-4 block text-sm font-medium" htmlFor="signup-confirm">
+      <label
+        className="mt-4 block text-sm font-medium"
+        htmlFor="signup-confirm"
+      >
         পাসওয়ার্ড নিশ্চিত করুন
         <input
           id="signup-confirm"
@@ -126,7 +130,6 @@ if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
       >
         {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে…" : "অ্যাকাউন্ট তৈরি করুন"}
       </button>
-
 
       <SocialLogin />
 

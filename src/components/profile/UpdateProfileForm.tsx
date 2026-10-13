@@ -37,12 +37,26 @@ export function UpdateProfileForm({ initialName }: { initialName: string }) {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-[var(--border)] bg-white p-6">
+    <form
+      onSubmit={submit}
+      className="rounded-2xl border border-[var(--border)] bg-white p-6"
+    >
       <label className="block font-medium" htmlFor="profile-name">
         নাম
-        <input id="profile-name" required minLength={2} value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-lg border border-[var(--border)] px-3 py-2.5" />
+        <input
+          id="profile-name"
+          required
+          minLength={2}
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          className="mt-2 w-full rounded-lg border border-[var(--border)] px-3 py-2.5"
+        />
       </label>
-      <button type="submit" disabled={loading} className="mt-5 w-full rounded-lg bg-[var(--green)] py-3 font-semibold text-white disabled:opacity-60">
+      <button
+        type="submit"
+        disabled={loading}
+        className="mt-5 w-full rounded-lg bg-[var(--green)] py-3 font-semibold text-white disabled:opacity-60"
+      >
         {loading ? "আপডেট হচ্ছে…" : "আপডেট করুন"}
       </button>
     </form>

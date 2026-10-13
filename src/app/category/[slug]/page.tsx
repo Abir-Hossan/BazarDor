@@ -18,7 +18,8 @@ export default async function CategoryPage({
     getCategories(),
     getProducts(slug),
   ]);
-  const category = categories.find((item) => item.slug === slug) ?? (await getCategory(slug));
+  const category =
+    categories.find((item) => item.slug === slug) ?? (await getCategory(slug));
   const resolvedCategory = category;
 
   if (!resolvedCategory && products.length === 0) notFound();
@@ -33,7 +34,9 @@ export default async function CategoryPage({
   return (
     <div className="container-page py-8">
       <div className="mb-6 text-sm text-[var(--muted)]">
-        <Link href="/" className="hover:text-[var(--green)]">হোম</Link>
+        <Link href="/" className="hover:text-[var(--green)]">
+          হোম
+        </Link>
         <span className="mx-2">›</span>
         <span>{resolvedCategory?.name ?? slug}</span>
       </div>
@@ -44,9 +47,12 @@ export default async function CategoryPage({
             {resolvedCategory?.icon ?? "🛒"}
           </span>
           <div>
-            <h1 className="text-3xl font-bold">{resolvedCategory?.name ?? slug}</h1>
+            <h1 className="text-3xl font-bold">
+              {resolvedCategory?.name ?? slug}
+            </h1>
             <p className="mt-1 text-[var(--muted)]">
-              {new Intl.NumberFormat("bn-BD").format(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
+              {new Intl.NumberFormat("bn-BD").format(products.length)}টি পণ্যের
+              আজকের দাম ও পরিবর্তন
             </p>
           </div>
         </div>
@@ -55,7 +61,8 @@ export default async function CategoryPage({
       <section className="mt-5 rounded-3xl border border-[var(--border)] bg-white p-4 sm:p-5">
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-[var(--muted)]">
-            মোট {new Intl.NumberFormat("bn-BD").format(products.length)}টি পণ্য দেখানো হচ্ছে
+            মোট {new Intl.NumberFormat("bn-BD").format(products.length)}টি পণ্য
+            দেখানো হচ্ছে
           </p>
           <SortDropdown />
         </div>
@@ -65,7 +72,10 @@ export default async function CategoryPage({
         <ProductGrid products={sorted} />
       </div>
 
-      <Link href="/" className="mt-5 inline-block text-[var(--green)] hover:underline">
+      <Link
+        href="/"
+        className="mt-5 inline-block text-[var(--green)] hover:underline"
+      >
         ← হোম পেজে ফিরে যান
       </Link>
     </div>

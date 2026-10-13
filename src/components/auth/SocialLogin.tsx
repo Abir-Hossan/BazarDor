@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,11 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { safeReturnPath } from "@/lib/utils";
 import toast from "react-hot-toast";
 
-export function SocialLogin({
-  callbackUrl = "/",
-}: {
-  callbackUrl?: string;
-}) {
+export function SocialLogin({ callbackUrl = "/" }: { callbackUrl?: string }) {
   const callback = safeReturnPath(callbackUrl);
   const [loadingProvider, setLoadingProvider] = useState<
     "google" | "github" | null

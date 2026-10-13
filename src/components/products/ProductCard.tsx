@@ -4,11 +4,12 @@ import type { Product } from "@/types/product";
 
 export function ProductCard({ product }: { product: Product }) {
   const change = product.change ?? 0;
-  const tone = change > 0
-    ? "text-red-500 bg-red-50"
-    : change < 0
-      ? "text-emerald-600 bg-emerald-50"
-      : "text-slate-500 bg-slate-50";
+  const tone =
+    change > 0
+      ? "text-red-500 bg-red-50"
+      : change < 0
+        ? "text-emerald-600 bg-emerald-50"
+        : "text-slate-500 bg-slate-50";
 
   return (
     <Link
@@ -17,7 +18,10 @@ export function ProductCard({ product }: { product: Product }) {
       aria-label={`${product.name} — বিস্তারিত দেখুন`}
     >
       <div className="flex items-start gap-3">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#f1f6f2] text-2xl" aria-hidden="true">
+        <span
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#f1f6f2] text-2xl"
+          aria-hidden="true"
+        >
           {product.emoji ?? "🛒"}
         </span>
         <div className="min-w-0">
@@ -29,11 +33,15 @@ export function ProductCard({ product }: { product: Product }) {
         <div>
           <p className="text-xs text-[var(--muted)]">আজকের দাম</p>
           <p className="mt-1 text-xl font-bold">
-            {formatBanglaNumber(product.price)} <span className="text-sm font-medium">টাকা</span>
+            {formatBanglaNumber(product.price)}{" "}
+            <span className="text-sm font-medium">টাকা</span>
           </p>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${tone}`}>
-          {change > 0 ? "▲" : change < 0 ? "▼" : "—"} {formatBanglaPercentage(change)}
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${tone}`}
+        >
+          {change > 0 ? "▲" : change < 0 ? "▼" : "—"}{" "}
+          {formatBanglaPercentage(change)}
         </span>
       </div>
     </Link>
