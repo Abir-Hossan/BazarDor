@@ -58,6 +58,14 @@ trustedOrigins: Array.from(
     [
       "http://localhost:3000",
       "http://127.0.0.1:3000",
+
+      // Production
+      "https://bazar-dor-chi-gold.vercel.app",
+
+      // Preview deployments
+      "https://bazar-qxpuqoot1-abir-hossan.vercel.app",
+      "https://bazar-dor-git-main-abir-hossan.vercel.app",
+
       process.env.NEXT_PUBLIC_APP_URL
         ? new URL(process.env.NEXT_PUBLIC_APP_URL).origin
         : undefined,
